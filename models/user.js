@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("./../configs/db.js");
 const config = require("./../configs/config.js");
 const bcrypt = require("bcrypt");
-//const msgs = require("./../i18n/"+config.i18n);
+//const validation = require("./../i18n/"+config.i18n).validation;
 const validation = require("./../i18n/en-en.js").validation;
 
 var User = db.define('user', {
