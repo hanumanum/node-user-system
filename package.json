@@ -4,7 +4,8 @@
   "description": "starter user system",
   "main": "index.js",
   "dependencies": {
-    "mysql": "^2.16.0",
+    "bcrypt": "^3.0.0",
+    "mysql2": "^1.6.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.38.0"
@@ -19,5 +20,9 @@
     "roles"
   ],
   "author": "a.kolyan (hanuman)",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanumanum/node-user-system"
+  }
 }
