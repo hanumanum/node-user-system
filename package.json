@@ -1,0 +1,23 @@
+{
+  "name": "node-user-system",
+  "version": "1.0.0",
+  "description": "starter user system",
+  "main": "index.js",
+  "dependencies": {
+    "mysql": "^2.16.0",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.38.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "user",
+    "system",
+    "roles"
+  ],
+  "author": "a.kolyan (hanuman)",
+  "license": "ISC"
+}
