@@ -1,9 +1,11 @@
 const Sequelize = require("sequelize");
 const db = require("./../configs/db");
-const config = require("./../configs/config");
+
+const env = process.env.NODE_ENV || "development";
+//const env = require('dotenv').load().parsed.NODE_ENV;
+const config = require('../configs/config.json')[env];
 const bcrypt = require("bcrypt");
-//const validation = require("./../i18n/validation/"+config.i18n).validation;
-const validationMsgs = require("./../i18n/validation/en-en").validation;
+const validationMsgs = require("./../i18n/validation/"+config.i18n).validation;
 
 var User = db.define('user', {
     username: {
@@ -65,24 +67,32 @@ var User = db.define('user', {
     },
     firstname: Sequelize.STRING,
     lastname: Sequelize.STRING,
-    }, 
+    lastlogin: {
+        type: Sequelize.DATE
+    },
+
+    status: {
+        type: Sequelize.ENUM('active', 'inactive'),
+        defaultValue: 'active'
+        }
+    },
     {
         instanceMethods: {
             validPassword(password) {
                 return bcrypt.compare(password, this.password);
             }
         }
-    })
+})
 
 
-    User.beforeCreate((user, options) => {
-        return bcrypt.hash(user.password, 10)
-            .then(hash => {
-                user.password = hash;
-            })
-            .catch(err => { 
-                throw new Error(); 
-            });
-    });
-    
+User.beforeCreate((user, options) => {
+    return bcrypt.hash(user.password, 10)
+        .then(hash => {
+            user.password = hash;
+        })
+        .catch(err => {
+            throw new Error();
+        });
+});
+
 module.exports = User;

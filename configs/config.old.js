@@ -3,5 +3,5 @@ module.exports = {
     db:"officials",
     user:"root",
     password:"root",
-    i18n:"en-en.js"
+    i18n:"en-en"
 }

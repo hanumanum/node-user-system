@@ -2,8 +2,8 @@ const readline = require("readline");
 const db = require("./configs/db");
 const User = require("./models/user");
 
-var superUserName, superUserPassword, superUserEmail;
-var promptsCount = 0;
+let superUserName, superUserPassword, superUserEmail;
+let promptsCount = 0;
 
 const rl = readline.createInterface({ input: process.stdin });
 rl.prompt();
@@ -33,19 +33,21 @@ rl.on('line', (line) => {
 
 }).on('close', () => {
   console.log(superUserName, superUserPassword, superUserEmail);
-  User.sync({ force: true }).then(function(){
-      User.create({
-        username: superUserName,
-        password: superUserPassword,
-        email: superUserEmail
-      }).catch(function (err) {
-        console.log("-----------------------------------------")
-        console.log(err)
+  User.sync({ force: true })
+    .then(function(){
+        User
+          .create({
+            username: superUserName,
+            password: superUserPassword,
+            email: superUserEmail
+            })
+          .catch(function (err) {
+            console.log("-----------------------------------------")
+            console.log(err)
+          })})
+    .finally(function(){
+        process.exit(0);
       });
-  });
-  
-
-  //process.exit(0);
 });
 
 

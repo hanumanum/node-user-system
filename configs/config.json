@@ -1,0 +1,23 @@
+{
+    "development": {
+        "username": "root",
+        "password": "root",
+        "database": "officials",
+        "host": "127.0.0.1",
+        "i18n":"en-en"
+    },
+    "test": {
+        "username": "",
+        "password": null,
+        "database": "",
+        "host": "",
+        "i18n":"en-en"
+    },
+    "production": {
+        "username": "",
+        "password": null,
+        "database": "",
+        "host": "127.0.0.1",
+        "i18n":"en-en"
+    }
+}

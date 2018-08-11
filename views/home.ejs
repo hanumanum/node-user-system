@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+
+<head>
+    <% include partials/resourses/styles-bootstrap %>
+    <link rel="stylesheet" href="styles/style.css">
+    <title><%=identity.title %></title>
+</head>
+
+<body>
+    <div class="container">
+        <% include partials/frontend/header %>
+        <% include partials/frontend/nav %>
+        <main class="row han-main">
+            <% include partials/frontend/main %>
+        </main>
+        <% include partials/frontend/footer %>
+    </div>
+
+    <% include partials/resourses/scripts-bootstrap %>
+</body>
+
+</html>
