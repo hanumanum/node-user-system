@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
-const db = require("./../configs/db.js");
-const config = require("./../configs/config.js");
+const db = require("./../configs/db");
+const config = require("./../configs/config");
 const bcrypt = require("bcrypt");
-//const validation = require("./../i18n/"+config.i18n).validation;
-const validation = require("./../i18n/en-en.js").validation;
+//const validation = require("./../i18n/validation/"+config.i18n).validation;
+const validationMsgs = require("./../i18n/validation/en-en").validation;
 
 var User = db.define('user', {
     username: {
@@ -12,19 +12,18 @@ var User = db.define('user', {
         , validate: {
             len: {
                 args: [2, 12],
-                msg: validation.usernameTooLong
+                msg: validationMsgs.usernameTooLong
             },
             isAlphanumeric: {
                 args: true,
-                msg: validation.usernameNotAlphanumeric
+                msg: validationMsgs.usernameNotAlphanumeric
             },
             isUnique: function (value, next) {
                 var self = this;
                 User.find({ where: { username: value } })
                     .then(function (user) {
-                        // reject if a different user wants to use the same email
                         if (user && self.id !== user.id) {
-                            return next('Username is already in use!');
+                            return next(validationMsgs.usernameExists);
                         }
                         return next();
                     })
@@ -39,7 +38,7 @@ var User = db.define('user', {
         validate: {
             len: {
                 args: [8, 20],
-                msg: validation.passwordTooShort
+                msg: validationMsgs.passwordTooShort
             },
         }
     },
@@ -48,14 +47,13 @@ var User = db.define('user', {
         allowNull: false,
         unique: true,
         validate: {
-            isEmail: { args: true, msg: validation.emailInvalid },
+            isEmail: { args: true, msg: validationMsgs.emailInvalid },
             isUnique: function (value, next) {
                 var self = this;
                 User.find({ where: { email: value } })
                     .then(function (user) {
-                        // reject if a different user wants to use the same email
                         if (user && self.id !== user.id) {
-                            return next(validation.emailExists);
+                            return next(validationMsgs.emailExists);
                         }
                         return next();
                     })
@@ -69,13 +67,11 @@ var User = db.define('user', {
     lastname: Sequelize.STRING,
     }, 
     {
-        //TODO: clearify ???
         instanceMethods: {
             validPassword(password) {
                 return bcrypt.compare(password, this.password);
             }
         }
-
     })
 
 
@@ -89,5 +85,4 @@ var User = db.define('user', {
             });
     });
     
-
 module.exports = User;

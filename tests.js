@@ -1,4 +1,4 @@
-const db = require("./configs/db.js");
+const db = require("./configs/db");
 const User = require("./models/user");
 
 User.create({
