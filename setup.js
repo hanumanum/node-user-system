@@ -44,10 +44,8 @@ rl.on('line', (line) => {
           .catch(function (err) {
             console.log("-----------------------------------------")
             console.log(err)
-          })})
-    .finally(function(){
-        process.exit(0);
-      });
+          })
+        })
 });
 
 
