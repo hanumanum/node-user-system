@@ -6,23 +6,41 @@ const passport   = require('passport')
 const session    = require('express-session')
 const flash  = require('connect-flash');
 
+
 const user = require("./models/user");
 
 const app = express();
 
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(session({ secret: 'strange monkey',resave: true, saveUninitialized:true}));
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+
+app.use(session(
+        { secret: 'strange monkey'
+            ,resave: true
+            , saveUninitialized:true,
+            cookie: { secure: false }
+        }));
 
 app.use(express.static('static'))
 app.set('view engine', 'ejs');
-app.locals = {identity};
+app.locals = {identity:identity}; //TODO clearify ???
 
-app.use(flash());
+
+app.use(function(req, res, next) {
+    res.locals.error = req.session.error || '';
+    res.locals.message = req.session.message || '';
+    delete req.session.error;
+    delete req.session.message;
+    next();
+ });
+
+//app.use(flash());
 
 
 app.get('/', function(req, res) {

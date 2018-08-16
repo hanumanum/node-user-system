@@ -1,21 +1,27 @@
 const db = require("./configs/db");
 const User = require("./models/user");
 
-User.create({
+const userData = {
     username: "jjjjjasdf",
     password: "asdf*ujHuy",
-    email: "emoadf@dssdfdme444mai.com"
-}).catch(function (err) {
-    console.log("-----------------------------------------")
-    //if(err instanceof SequelizeValidationError){
-        console.log(err.message);
-    //}
-    
-}).finally(function(){
-    process.exit();
-});
+    email: "emoadf"
+}
 
+const u = User.build(userData);
 
-
-
-
+// validate
+errors = u.validate();
+if (errors) {
+    for (var prop in errors) {
+        if (errors.hasOwnProperty(prop))
+            console.log("----------------",prop);
+            for(var i in prop){
+                if(prop.hasOwnProperty(i)){
+                    console.log(prop[i]);
+                }
+            }
+        }
+}
+else {
+    // errors is null, which means validation succeeded
+}

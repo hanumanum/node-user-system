@@ -11,6 +11,9 @@
     <div class="container">
         <% include partials/frontend/header %>
         <% include partials/frontend/nav %>
+        <% if ( message ) { %>
+            <div class="flash"><%= message %></div>
+        <% } %>
         <main class="han-main">
             <form class="han-usrforms" id="signup" name="signup" method="post" action="/signup">
                 <div class="form-group">

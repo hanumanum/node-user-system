@@ -1,6 +1,7 @@
 const bCrypt = require('bcrypt');
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const session = require("express-session");
 
 module.exports = function (passport, user) {
     var User = user;
@@ -40,19 +41,23 @@ module.exports = function (passport, user) {
                 /*firstname: req.body.firstname,
                 lastname: req.body.lastname */
             };
-
-            User
-                .create(data)
+            
+            User.create(data)
                 .then(function (newUser, created) {
                     if (!newUser) {
-                        return done(null, false);
+                        return done(null, false, req.flash('signupMessage', 'That email or username already in use.'));
                     }
                     if (newUser) {
                         return done(null, newUser);
                     }
                 }).catch(function (err) {
-                    console.log(err.message);
-                    return done(null, false);
+                    if(err instanceof Sequelize.ValidationError){
+                        
+                        return done(null, false, req.flash('signupMessage', err.message));
+                    }                    
+                    else{
+                        return done(null, false, req.flash('signupMessage', "Unexpected error"));
+                    }
                 });;
         }
     ));

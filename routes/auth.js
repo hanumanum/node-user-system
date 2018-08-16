@@ -5,7 +5,8 @@ var authController = require('../controllers/authcontroller.js');
     app.get('/signin', authController.signin);
     app.post('/signup', passport.authenticate('local-signup', {
             successRedirect: '/dashboard',
-            failureRedirect: '/signup'
+            failureRedirect: '/signup',
+            failureFlash : true 
         }
      ));
     app.get('/dashboard', isLoggedIn, authController.dashboard);

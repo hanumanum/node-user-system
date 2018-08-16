@@ -85,12 +85,12 @@ var User = db.define('user', {
 })
 
 
-User.beforeCreate((user, options) => {
+User.beforeCreate(function(user, options) {
     return bcrypt.hash(user.password, 10)
-        .then(hash => {
+        .then(function(hash) {
             user.password = hash;
         })
-        .catch(err => {
+        .catch(function(err) {
             throw new Error();
         });
 });
