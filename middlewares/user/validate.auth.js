@@ -51,8 +51,38 @@ module.exports = {
         }
     },
     signin:{
-        check:function(req, res, next){
-            next();
+        validateFileds:function(req, res, next){
+            Joi.validate(
+                {
+                    query:req.body
+                },
+                {
+                    query:{
+                        password: Joi
+                                    .string()
+                                    .empty()
+                                    .required(),
+                        email: Joi.string()
+                                      .empty()
+                                      .trim()
+                                      .lowercase()
+                                      .required(),
+                    }
+                },
+                {
+                    abortEarly:false
+                 }, 
+                 function(err){
+                    if(err){
+                        const errMsg = errorTransformer(err)
+                        req.flash('siginMessageError', errMsg)
+                        req.flash('formData', req.body)
+                        
+                    }
+                }
+            )    
+            next()
         }
     }
+ 
 }

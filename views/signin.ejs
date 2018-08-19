@@ -15,12 +15,23 @@
             <form class="han-usrforms" id="signin" name="signin" method="post" action="signin">
                 <div class="form-group">
                     <label for="email">Email address or Username</label>
-                    <input name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email or username">
+                    <% if(formData && formData.email) { %>
+                    <input value="<%=formData.email%>" name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email or username">
+                    <% } else {%>
+                    <input  name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email or username">    
+                    <% } %>    
                   </div>
+                  <% if ( message && message.email ) { %>
+                    <div class="alert alert-danger" role="alert"><%-message.email.join('<br>') %></div>
+                  <% } %>
+
                   <div class="form-group">
                     <label for="password">Password</label>
                     <input name="password" type="password" class="form-control" id="password" placeholder="Password">
                   </div>
+                  <% if ( message && message.password ) { %>
+                    <div class="alert alert-danger" role="alert"><%-message.password.join('<br>') %></div>
+                  <% } %>
                   <button type="submit" class="btn btn-primary" value="Sign In">Submit</button>
             </form>
         </main>

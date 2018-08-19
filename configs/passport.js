@@ -73,19 +73,14 @@ module.exports = function (passport, user) {
 
             User.findOne({where: { [Op.or]: [{ email:email },{username: email}] }}).then(function (user) {
                 if (!user) {
-                    console.log("Email does not exist");
                     return done(null, false, { message: 'Email does not exist' });
                 }
                 if (!isValidPassword(password,user.password)) {
-                    console.log("Incorrect password.");
                     return done(null, false, { message: 'Incorrect password.' });
                 }
-                console.log("correct user");
                 var userinfo = user.get();
                 return done(null, userinfo);
             }).catch(function (err) {
-                console.log("Error:", err);
-                console.log('Something went wrong');
                 return done(null, false, { message: 'Something went wrong' });
             });
 

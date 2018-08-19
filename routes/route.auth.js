@@ -1,5 +1,5 @@
-var authController = require('../controllers/controller.auth');
-var validation = require("../middlewares/user/validate.signup");
+let authController = require('../controllers/controller.auth');
+let validation = require("../middlewares/user/validate.auth");
 
  module.exports = function(app, passport) {
     app.get('/signup', authController.signup);
@@ -15,7 +15,9 @@ var validation = require("../middlewares/user/validate.signup");
      ));
     app.get('/dashboard', isLoggedIn, authController.dashboard);
     app.get('/logout', authController.logout);
-    app.post('/signin', passport.authenticate('local-signin', {
+    
+    app.post('/signin',validation.signin.validateFileds
+         ,passport.authenticate('local-signin', {
             successRedirect: '/dashboard',
             failureRedirect: '/signin'
         }
