@@ -1,11 +1,13 @@
 const readline = require("readline");
 const User = require("./models/user");
+const ContactMessage = require("./models/contactmessage");
 
 let superUserName, superUserPassword, superUserEmail;
 let promptsCount = 0;
 
 const rl = readline.createInterface({ input: process.stdin });
 rl.prompt();
+
 
 console.log('Insert username for Super User:');
 rl.on('line', (line) => {
@@ -44,9 +46,13 @@ rl.on('line', (line) => {
           .catch(function (err) {
             console.log(err)
           })
+
+          ContactMessage.sync({force: true}).then(function(){
+            console.log("-----push enter----");
+          })
+    
         })
 });
-
 
 
 

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <% include partials/resourses/styles-bootstrap %>
+    <link rel="stylesheet" href="styles/style.css">
+    <title><%=identity.title %></title>
+</head>
+
+<body>
+    <div class="container">
+        <% include partials/frontend/header %>
+        <% include partials/frontend/nav %>
+        <main class="han-main">
+            <% if(response) { %>
+                <%=response %>
+            <%  } else { %>
+                <form class="han-usrforms" id="contact" name="contact" method="post" action="contact">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <% if(formData && formData.email) { %>
+                        <input value="<%=formData.email%>" name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <% } else {%>
+                        <input  name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email or username">    
+                        <% } %>
+                    </div>
+                    <% if ( message && message.email ) { %>
+                        <div class="alert alert-danger" role="alert"><%-message.email.join('<br>') %></div>
+                    <% } %>
+                    <label for="topic">Topic</label>
+                    <input name="topic" type="text" class="form-control" id="topic" aria-describedby="topicHelp" placeholder="Enter topic">  
+                    <br>
+                    <label for="contactmessage">Text</label>
+                    <textarea class="form-control" name="contactmessage" id="contactmessage"></textarea>
+                    <br>
+                    <button type="submit" class="btn btn-primary" value="Sign In">Submit</button>
+                </form>
+            <% } %>
+        </main>
+        <% include partials/frontend/footer %>
+    </div>
+    <% include partials/resourses/scripts-bootstrap %>
+</body>
+
+</html>

@@ -7,11 +7,10 @@ const config = require('../configs/config.json')[env];
 const bcrypt = require("bcrypt");
 const validationMsgs = require("./../i18n/validation/"+config.i18n).validation;
 
-var User = db.define('user', {
+let User = db.define('user', {
     username: {
         type: Sequelize.STRING, 
         unique: true
-        
     },
     password: {
         type: Sequelize.STRING,
