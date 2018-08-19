@@ -48,6 +48,7 @@ module.exports = function (passport, user) {
                         return done(null, data);
                     }
                     if (newUser) {
+                        //console.log("new users pass",newUser);
                         return done(null, newUser);
                     }
                 }).catch(function (err) {
@@ -66,20 +67,20 @@ module.exports = function (passport, user) {
 
         function (req, email, password, done) {
             var User = user;
-            var isValidPassword = function (userpass, password) {
-                return bCrypt.compareSync(password, userpass);
+            var isValidPassword = function (password, passwordHash) {
+                return bCrypt.compareSync(password, passwordHash);
             }
 
-            User.findOne({ [Op.or]: [{ email:email },{username: email}] }).then(function (user) {
+            User.findOne({where: { [Op.or]: [{ email:email },{username: email}] }}).then(function (user) {
                 if (!user) {
                     console.log("Email does not exist");
                     return done(null, false, { message: 'Email does not exist' });
                 }
-                if (!isValidPassword(user.password, password)) {
-                    console.log(user.password, bCrypt.hashSync(password,8));
+                if (!isValidPassword(password,user.password)) {
                     console.log("Incorrect password.");
                     return done(null, false, { message: 'Incorrect password.' });
                 }
+                console.log("correct user");
                 var userinfo = user.get();
                 return done(null, userinfo);
             }).catch(function (err) {

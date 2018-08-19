@@ -45,7 +45,7 @@ var User = db.define('user', {
 
 
 User.beforeCreate(function(user, options) {
-    return bcrypt.hash(user.password, 8)
+    return bcrypt.hash(user.password, 10)
         .then(function(hash) {
             user.password = hash;
         })
