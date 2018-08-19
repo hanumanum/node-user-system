@@ -30,10 +30,13 @@ var User = db.define('user', {
     lastlogin: {
         type: Sequelize.DATE
     },
-    status: {
-        type: Sequelize.ENUM('active', 'inactive'),
-        defaultValue: 'active'
-        }
+    verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    verify_token:{
+        type:Sequelize.STRING
+    }    
     }
 )
 
@@ -51,6 +54,8 @@ User.beforeCreate(function(user, options) {
     return bcrypt.hash(user.password, 10)
         .then(function(hash) {
             user.password = hash;
+            user.verify_token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            console.log(user.verify_token) 
         })
         .catch(function(err) {
             throw new Error();

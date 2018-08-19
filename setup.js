@@ -1,5 +1,4 @@
 const readline = require("readline");
-const db = require("./configs/db");
 const User = require("./models/user");
 
 let superUserName, superUserPassword, superUserEmail;
@@ -31,7 +30,7 @@ rl.on('line', (line) => {
   }
   rl.prompt();
 
-}).on('close', () => {
+}).on('close', function() {
   console.log(superUserName, superUserPassword, superUserEmail);
   User.sync({ force: true })
     .then(function(){
@@ -39,10 +38,10 @@ rl.on('line', (line) => {
           .create({
             username: superUserName,
             password: superUserPassword,
-            email: superUserEmail
+            email: superUserEmail,
+            verified: true
             })
           .catch(function (err) {
-            console.log("-----------------------------------------")
             console.log(err)
           })
         })

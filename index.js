@@ -6,7 +6,6 @@ const passport   = require('passport')
 const session    = require('express-session')
 const flash  = require('connect-flash');
 
-
 const user = require("./models/user");
 
 const app = express();

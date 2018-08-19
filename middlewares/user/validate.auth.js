@@ -40,7 +40,6 @@ module.exports = {
                         const errMsg = errorTransformer(err)
                         req.flash('signupMessageError', errMsg)
                         req.flash('formData', req.body)
-                        
                     }
                 }
             )    
@@ -49,14 +48,18 @@ module.exports = {
         uniqueData:function(req, res, next){
             User.usernaemOrEmail(req.body.username, req.body.email)
                 .then(function(user){
-                    if(user.username == req.body.username){
-                        req.flash('signupMessageError', {"username":["username already exists"]})
-                    }
-                    if(user.email == req.body.email){
-                        req.flash('signupMessageError', {"email":["email already exists"]})
+                    if(user){
+                        if(user.username == req.body.username){
+                            req.flash('signupMessageError', {"username":["username already exists"]})
+                        }
+                        if(user.email == req.body.email){
+                            req.flash('signupMessageError', {"email":["email already exists"]})
+                        }
                     }
                     req.flash("formData", req.body);
                     next();
+                }).catch(function(err){
+                    next(err);
                 })
             
         }
@@ -95,5 +98,4 @@ module.exports = {
             next()
         }
     }
- 
-}
+ }

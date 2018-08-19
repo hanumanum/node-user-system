@@ -30,13 +30,10 @@ module.exports = function (passport, user) {
         },
 
         function (req, email, password, done) {
-            console.log("========================");
             var data = {
                 email: email,
                 password: password,
                 username: req.body.username,
-                /*firstname: req.body.firstname,
-                lastname: req.body.lastname */
             };
             
             User.create(data)
@@ -74,20 +71,14 @@ module.exports = function (passport, user) {
                 }
                 
                 var userinfo = user.get();
-                console.log("auth start--------------------");
-                console.log(userinfo);
-                console.log("auth end--------------------");
                 return done(null, userinfo);
 
             }).catch(function (err) {
-                console.log(err)
                 return done(null, false, req.flash('siginMessageError', {"email":["something wrong"]}));
             });
 
         }
     ));
-
-
 }
 
 
