@@ -1,6 +1,3 @@
-const bCrypt = require('bcrypt')
-const Sequelize = require("sequelize")
-const Op = Sequelize.Op
 const session = require("express-session")
 
 module.exports = function (passport, user) {
@@ -43,12 +40,11 @@ module.exports = function (passport, user) {
             };
             
             User.create(data)
-                .then(function (newUser, created) {
+                .then(function (newUser) {
                     if (!newUser) {
                         return done(null, data);
                     }
                     if (newUser) {
-                        //console.log("new users pass",newUser);
                         return done(null, newUser);
                     }
                 }).catch(function (err) {
@@ -62,25 +58,29 @@ module.exports = function (passport, user) {
         {
             usernameField: 'email',
             passwordField: 'password',
-            passReqToCallback: true // allows us to pass back the entire request to the callback
+            passReqToCallback: true
         },
 
         function (req, email, password, done) {
             var User = user;
-            var isValidPassword = function (password, passwordHash) {
-                return bCrypt.compareSync(password, passwordHash);
-            }
 
-            User.findOne({where: { [Op.or]: [{ email:email },{username: email}] }}).then(function (user) {
+            //email,email -> becouse of same field with name email but handle also username
+            User.usernaemOrEmail(email,email).then(function (user) {
                 if (!user) {
                     return done(null, false, req.flash('siginMessageError', {"email":["incorrect username or email"]}));
                 }
-                if (!isValidPassword(password,user.password)) {
+                if (user && !user.isValidPassword(password)) {
                     return done(null, false, req.flash('siginMessageError', {"password":["password incorrect"]}));
                 }
+                
                 var userinfo = user.get();
+                console.log("auth start--------------------");
+                console.log(userinfo);
+                console.log("auth end--------------------");
                 return done(null, userinfo);
+
             }).catch(function (err) {
+                console.log(err)
                 return done(null, false, req.flash('siginMessageError', {"email":["something wrong"]}));
             });
 

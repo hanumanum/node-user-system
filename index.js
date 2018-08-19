@@ -16,8 +16,6 @@ const cookieParser = require('cookie-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 
 app.use(session(
@@ -26,22 +24,14 @@ app.use(session(
             , saveUninitialized:true,
             cookie: { secure: false }
         }));
+app.use(passport.initialize());
+app.use(passport.session());
+        
+
 
 app.use(express.static('static'))
 app.set('view engine', 'ejs');
-app.locals = {identity:identity}; //TODO clearify ???
-
-//TODO: is this nessesery ?
-/*
-app.use(function(req, res, next) {
-    res.locals.error = req.session.error || '';
-    res.locals.message = req.session.message || '';
-    delete req.session.error;
-    delete req.session.message;
-    next();
- });
-*/
-//app.use(flash());
+app.locals = {identity:identity};
 
 
 app.get('/', function(req, res) {

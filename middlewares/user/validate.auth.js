@@ -47,9 +47,18 @@ module.exports = {
             next()
         },
         uniqueData:function(req, res, next){
+            User.usernaemOrEmail(req.body.username, req.body.email)
+                .then(function(user){
+                    if(user.username == req.body.username){
+                        req.flash('signupMessageError', {"username":["username already exists"]})
+                    }
+                    if(user.email == req.body.email){
+                        req.flash('signupMessageError', {"email":["email already exists"]})
+                    }
+                    req.flash("formData", req.body);
+                    next();
+                })
             
-            
-            next();
         }
     },
     signin:{

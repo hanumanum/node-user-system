@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const db = require("./../configs/db");
+const Sequelize = require("sequelize")
+const db = require("./../configs/db")
+const Op = Sequelize.Op
 
 const env = process.env.NODE_ENV || "development";
-//const env = require('dotenv').load().parsed.NODE_ENV;
 const config = require('../configs/config.json')[env];
 const bcrypt = require("bcrypt");
 const validationMsgs = require("./../i18n/validation/"+config.i18n).validation;
@@ -34,14 +34,17 @@ var User = db.define('user', {
         type: Sequelize.ENUM('active', 'inactive'),
         defaultValue: 'active'
         }
-    },
-    {
-        instanceMethods: {
-            validPassword(password) {
-                return bcrypt.compare(password, this.password);
-            }
-        }
-})
+    }
+)
+
+User.prototype.isValidPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+User.usernaemOrEmail = function(username,email){
+    console.log(username, email)
+    return User.findOne({where: { [Op.or]: [{username: username  },{email:email}] }});
+}
 
 
 User.beforeCreate(function(user, options) {
