@@ -12,11 +12,11 @@ exports.signin = function(req,res){
 	res.render('signin', {
          message: req.flash('siginMessageError')[0]
         ,formData: req.flash("formData")[0]
-    }); 
+    });
 }
 
 exports.dashboard = function(req,res){
-	res.render('dashboard'); 
+	res.render('dashboard');
 }
 
 exports.logout = function(req,res){

@@ -2,17 +2,17 @@
 <html>
 
 <head>
-    <% include partials/resourses/styles-bootstrap %>
-    <link rel="stylesheet" href="styles/style.css">
+    <%- include("../partials/resourses/styles-bootstrap") %>
+    <link rel="stylesheet" href="/styles/style.css">
     <title><%=identity.title %></title>
 </head>
 
 <body>
     <div class="container-fluid">
-            <%- include("partials/backend/header") %>
+            <%- include("../partials/backend/header") %>    
             <main class="row">
                 <div class="col-2">
-                    <% include partials/backend/leftnav %>
+                    <%- include("../partials/backend/leftnav") %>
                 </div>
                 <div class="col-10">
                   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus numquam, tenetur ducimus culpa rerum provident inventore id quaerat possimus fuga, nostrum, veniam magnam recusandae velit fugiat quis neque impedit quibusdam.
@@ -20,7 +20,7 @@
             </main>
     </div>
 
-    <% include partials/resourses/scripts-bootstrap %>
+    <%- include("../partials/resourses/scripts-bootstrap") %>
 </body>
 
 </html>

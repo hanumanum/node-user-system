@@ -19,3 +19,20 @@
 .han-usrforms{
     width:50%;
 }
+
+
+.backend-nav .nav-link{
+    background-color:blue;
+    color:white;
+    border-bottom: 1px white solid;
+}
+
+.backend-nav .nav-link.active{
+    background-color:gray;
+    color:white;
+}
+
+.backend-nav .nav-link:hover{
+    background-color:gray;
+    color:white;
+}

@@ -25,7 +25,6 @@ app.use(session(
         }));
 app.use(passport.initialize());
 app.use(passport.session());
-        
 
 
 app.use(express.static('static'))
@@ -37,10 +36,21 @@ app.get('/', function(req, res) {
     res.render('home');
 });
 
+app.get('/dashboard/users', function(req, res) {
+    res.render('dashboard/users');
+});
 
 require('./routes/route.auth.js')(app,passport);
 require('./configs/passport.js')(passport, user);
 
+
+/*
+app._router.stack.forEach(function(r){
+    if (r.route && r.route.path){
+      console.log(r.route)
+    }
+})
+*/
 
 app.get('*',function(req, res){
     res.status(404);
