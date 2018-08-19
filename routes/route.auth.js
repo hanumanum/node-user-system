@@ -1,12 +1,16 @@
-var authController = require('../controllers/authcontroller.js');
- 
+var authController = require('../controllers/controller.auth');
+var validation = require("../middlewares/user/validate.signup");
+
  module.exports = function(app, passport) {
     app.get('/signup', authController.signup);
     app.get('/signin', authController.signin);
-    app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect: '/dashboard',
-            failureRedirect: '/signup',
-            failureFlash : true 
+    app.post('/signup', 
+            validation.signup.validateFileds, 
+            validation.signup.uniqueData,
+            passport.authenticate('local-signup', {
+                successRedirect: '/dashboard',
+                failureRedirect: '/signup',
+                failureFlash: true 
         }
      ));
     app.get('/dashboard', isLoggedIn, authController.dashboard);

@@ -1,19 +1,18 @@
-const bCrypt = require('bcrypt');
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
-const session = require("express-session");
+const bCrypt = require('bcrypt')
+const Sequelize = require("sequelize")
+const Op = Sequelize.Op
+const session = require("express-session")
 
 module.exports = function (passport, user) {
-    var User = user;
-    var LocalStrategy = require('passport-local').Strategy;
+    let User = user
+    let LocalStrategy = require('passport-local').Strategy
 
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, user.id)
     });
 
 
-    // used to deserialize the user
-    passport.deserializeUser(function (id, done) {
+   passport.deserializeUser(function (id, done) {
         User.findById(id).then(function (user) {
             if (user) {
                 done(null, user.get());
@@ -34,6 +33,7 @@ module.exports = function (passport, user) {
         },
 
         function (req, email, password, done) {
+            console.log("========================");
             var data = {
                 email: email,
                 password: password,
@@ -45,20 +45,14 @@ module.exports = function (passport, user) {
             User.create(data)
                 .then(function (newUser, created) {
                     if (!newUser) {
-                        return done(null, false, req.flash('signupMessage', 'That email or username already in use.'));
+                        return done(null, data);
                     }
                     if (newUser) {
                         return done(null, newUser);
                     }
                 }).catch(function (err) {
-                    if(err instanceof Sequelize.ValidationError){
-                        
-                        return done(null, false, req.flash('signupMessage', err.message));
-                    }                    
-                    else{
-                        return done(null, false, req.flash('signupMessage', "Unexpected error"));
-                    }
-                });;
+                    return done(null, false, req.flash('signupMessage', "Unexpected error"));
+                });
         }
     ));
 
@@ -78,15 +72,19 @@ module.exports = function (passport, user) {
 
             User.findOne({ [Op.or]: [{ email:email },{username: email}] }).then(function (user) {
                 if (!user) {
+                    console.log("Email does not exist");
                     return done(null, false, { message: 'Email does not exist' });
                 }
                 if (!isValidPassword(user.password, password)) {
+                    console.log(user.password, bCrypt.hashSync(password,8));
+                    console.log("Incorrect password.");
                     return done(null, false, { message: 'Incorrect password.' });
                 }
                 var userinfo = user.get();
                 return done(null, userinfo);
             }).catch(function (err) {
                 console.log("Error:", err);
+                console.log('Something went wrong');
                 return done(null, false, { message: 'Something went wrong' });
             });
 

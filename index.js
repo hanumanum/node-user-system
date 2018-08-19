@@ -31,7 +31,8 @@ app.use(express.static('static'))
 app.set('view engine', 'ejs');
 app.locals = {identity:identity}; //TODO clearify ???
 
-
+//TODO: is this nessesery ?
+/*
 app.use(function(req, res, next) {
     res.locals.error = req.session.error || '';
     res.locals.message = req.session.message || '';
@@ -39,7 +40,7 @@ app.use(function(req, res, next) {
     delete req.session.message;
     next();
  });
-
+*/
 //app.use(flash());
 
 
@@ -48,7 +49,7 @@ app.get('/', function(req, res) {
 });
 
 
-var authRoute = require('./routes/auth.js')(app,passport);
+require('./routes/route.auth.js')(app,passport);
 require('./configs/passport.js')(passport, user);
 
 
