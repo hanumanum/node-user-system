@@ -19,7 +19,7 @@
                   <h2>All users </h2>
                   <hr>
                   <% if(users) {%>
-                    <table id="datatable">
+                    <table id="datatable" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>ID</th>    
@@ -56,6 +56,7 @@
 
     <%- include("../partials/resourses/scripts-bootstrap") %>
     <%- include("../partials/resourses/scripts-datatable") %>
+    <%- include("../partials/backend/footer") %>
 </body>
 
 </html>

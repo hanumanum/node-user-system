@@ -1,3 +1,7 @@
+main {
+    padding-bottom: 50px;
+}
+
 .han-header{
     margin:25px 0px;
     border-bottom: 1px solid gray;
@@ -39,4 +43,8 @@
 
 .fa-trash{
     color:red;
+}
+
+.fa-eye{
+    color:green;
 }

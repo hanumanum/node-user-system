@@ -35,7 +35,6 @@ app.get('/', function(req, res) {
     res.render('home');
 });
 
-
 require('./configs/passport.js')(passport, user);
 
 require('./routes/route.contact.js')(app);

@@ -1,5 +1,5 @@
-let lg = require("../utils/authAndRoles");
-let User = require("../models/user");
+const lg = require("../utils/authAndRoles");
+const User = require("../models/user");
 
 //TODO: validations and error reporting
 

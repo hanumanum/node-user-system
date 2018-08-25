@@ -15,7 +15,7 @@ let ContactMessage = db.define('contactmessage', {
         
     },
     text: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
     },
     readstatus: {
         type: Sequelize.BOOLEAN,

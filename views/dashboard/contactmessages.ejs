@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <%- include("../partials/resourses/styles-bootstrap") %>
+    <%- include("../partials/resourses/styles-datatable") %>
+    <link rel="stylesheet" href="/styles/style.css">
+    <title><%=identity.title %></title>
+</head>
+
+<body>
+    <div class="container-fluid">
+            <%- include("../partials/backend/header") %>    
+            <main class="row">
+                <div class="col-2">
+                    <%- include("../partials/backend/leftnav") %>
+                </div>
+                <div class="col-10">
+                  <h2>All Messeges </h2>
+                  <hr>
+                  <% if(contactmessages) {%>
+                    <table id="datatable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>    
+                            <th>Email</th>
+                            <th>Topic</th>
+                            <th>Text</th>
+                            <th>Date</th>
+
+                            <th>Read/Unread</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% contactmessages.forEach(function(contactmessage){ %>
+                            <tr>
+                                <td><%=contactmessage.id %></td>    
+                                <td><%=contactmessage.email %></td>
+                                <td><%=contactmessage.topic %></td>
+                                <td><%=contactmessage.text %></td>
+                                <td><%=contactmessage.createdAt.toLocaleDateString("en-US") %></td>
+                                <td><a href="/dashboard/contactmessages/toggle/<%=contactmessage.id %>">
+                                        <% if(contactmessage.readstatus){ %>
+                                            <i class="fas fa-eye"></i>
+                                        <% } else { %>
+                                            <i class="fas fa-eye-slash"></i>    
+                                        <% } %>
+                                        
+                                    </a>
+                                </td>
+                                <td><a href="/dashboard/contactmessages/delete/<%=contactmessage.id %>"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                    </table>
+                  <% } %>
+                </div>
+            </main>
+    </div>
+
+    <%- include("../partials/resourses/scripts-bootstrap") %>
+    <%- include("../partials/resourses/scripts-datatable") %>
+    <%- include("../partials/backend/footer") %>
+</body>
+
+</html>
