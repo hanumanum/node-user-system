@@ -1,5 +1,6 @@
 let authController = require('../controllers/controller.auth');
 let validation = require("../middlewares/user/validate.auth");
+let lg = require("../utils/authAndRoles");
 
  module.exports = function(app, passport) {
     app.get('/signup', authController.signup);
@@ -13,7 +14,7 @@ let validation = require("../middlewares/user/validate.auth");
                 failureFlash: true 
         }
      ));
-    app.get('/dashboard', isLoggedIn, authController.dashboard);
+    app.get('/dashboard', lg.isLoggedIn, authController.dashboard);
     app.get('/logout', authController.logout);
     
     app.post('/signin',validation.signin.validateFileds
@@ -24,10 +25,5 @@ let validation = require("../middlewares/user/validate.auth");
      ));
  
  
-    function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated())
-            return next();
-        res.redirect('/signin');
-    }
  
 }

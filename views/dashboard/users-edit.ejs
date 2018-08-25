@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+    <%- include("../partials/resourses/styles-bootstrap") %>
+    <%- include("../partials/resourses/styles-datatable") %>
+    <link rel="stylesheet" href="/styles/style.css">
+    <title><%=identity.title %></title>
+</head>
+
+<body>
+    <div class="container-fluid">
+            <%- include("../partials/backend/header") %>    
+            <main class="row">
+                <div class="col-2">
+                    <%- include("../partials/backend/leftnav") %>
+                </div>
+                <div class="col-10">
+                <% if(userE) {%>  
+                    <h2>Edit user </h2>
+                    <% if(!userE.verified) { %>
+                        <div class="text-danger">User still not verified !!!</div>
+                    <% }%>
+
+                    <hr>
+                  <form action="/dashboard/users/update" method="post" class="han-usrforms">
+                        <div class="form-group">    
+                            <label>Username</label>
+                            <input class="form-control" type="text" name="username" value="<%=userE.username %>">
+                        </div>
+                        <div class="form-group">    
+                            <label>Email</label>
+                            <input class="form-control" type="text" name="email" value="<%=userE.email %>">
+                        </div>
+                        <div class="form-group">    
+                            <label>First Name</label>
+                            <input class="form-control" type="text" name="firstname" value="<%=userE.firstname %>">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" type="text" name="lastname" value="<%=userE.lastname %>">
+                        </div>
+                            <input type="hidden" name="id" value="<%=userE.id %>">
+                            <input type="submit" class="btn btn-primary">
+                            <!-- <a href="" class="btn btn-primary" disabled> Verify user manually </a> -->
+                        </form> 
+                        <span class="small">last modified: <%=userE.updatedAt.toLocaleDateString("en-US") %></span>
+                        <br><span class="small">Registrated: <%=userE.createdAt.toLocaleDateString("en-US") %></span>
+    
+                  <% } else { %>
+                        nothing here
+                  <% } %>
+                </div>
+            </main>
+    </div>
+
+    <%- include("../partials/resourses/scripts-bootstrap") %>
+    <%- include("../partials/resourses/scripts-datatable") %>
+</body>
+
+</html>

@@ -3,6 +3,7 @@
 
 <head>
     <%- include("../partials/resourses/styles-bootstrap") %>
+    <%- include("../partials/resourses/styles-datatable") %>
     <link rel="stylesheet" href="/styles/style.css">
     <title><%=identity.title %></title>
 </head>
@@ -15,12 +16,46 @@
                     <%- include("../partials/backend/leftnav") %>
                 </div>
                 <div class="col-10">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus numquam, tenetur ducimus culpa rerum provident inventore id quaerat possimus fuga, nostrum, veniam magnam recusandae velit fugiat quis neque impedit quibusdam.
+                  <h2>All users </h2>
+                  <hr>
+                  <% if(users) {%>
+                    <table id="datatable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>    
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Verified</th>
+                            <th>Registrated</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(function(user){ %>
+                            <tr>
+                                <td><%=user.id %></td>    
+                                <td><%=user.username %></td>
+                                <td><%=user.email %></td>
+                                <td><%=user.firstname %></td>
+                                <td><%=user.lastname %></td>
+                                <td><%=user.verified %></td>
+                                <td><%=user.createdAt.toLocaleDateString("en-US") %></td>
+                                <td><a href="/dashboard/users/<%=user.id %>"><i class="fas fa-edit"></i></a></td>
+                                <td><a href="/dashboard/users/delete/<%=user.id %>"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                    </table>
+                  <% } %>
                 </div>
             </main>
     </div>
 
     <%- include("../partials/resourses/scripts-bootstrap") %>
+    <%- include("../partials/resourses/scripts-datatable") %>
 </body>
 
 </html>

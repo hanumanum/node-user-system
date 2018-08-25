@@ -2,8 +2,8 @@
 <header>
     <h2><%=identity.title %> : Header Placeholder</h2>
     <p><%=identity.slogan %></p>
-    <% if(user.verified == false) { %>
-        <div class="alert alert-danger">Please check your email to verify your account</div>
+    <% if(user && user.verified == false) { %>
+        <div class="alert alert-danger">Please check your email and verify your account</div>
     <% } %>
 </header>
 <hr>
