@@ -24,6 +24,9 @@ main {
     width:50%;
 }
 
+.han-usrforms.page-forms{
+    width:70%;
+}
 
 .backend-nav .nav-link{
     background-color:blue;

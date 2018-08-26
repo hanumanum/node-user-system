@@ -4,24 +4,7 @@ const pages = require("../models/page")
 
 //TODO: validation and messaging
 module.exports = function (app) {
-    /*
-    app.get('/dashboard/pages', function (req, res) {
-        res.render('pages', { formData: "", message: "", response: "" });
-    });
 
-    app.post('/contact', function (req, res) {
-        if (req.body.email && req.body.contactmessage && req.body.email != "" && req.body.contactmessage != "") {
-            let data = {
-                email: req.body.email,
-                topic: req.body.topic,
-                text: req.body.contactmessage
-            }
-            contactmessage.create(data).then(function () {
-                res.render('contact', { response: "Sucsessfuly sent, we will reply you" });
-            })
-        }
-    });
-    */
     app.get('/dashboard/pages'
         , lg.isLoggedIn
         , lg.haveRights
@@ -37,17 +20,28 @@ module.exports = function (app) {
         , function (req, res) {
             res.render('dashboard/pages-add', { user: req.user, messeges: "" });
         });
-    
+
     app.post('/dashboard/pages/create'
         , lg.isLoggedIn
         , lg.haveRights
         , function (req, res) {
-            pages.create(req.body).then(function(newPage){
+            pages.create(req.body).then(function (newPage) {
                 res.redirect('/dashboard/pages');
                 console.log(newPage.id)
             })
         });
-        
+
+    app.post('/dashboard/pages/update'
+        , lg.isLoggedIn
+        , lg.haveRights
+        , function (req, res) {
+            pages.findById(req.body.id).then(function(page){
+                page.update(req.body).then(function(){
+                    res.redirect('/dashboard/pages/edit/'+page.id); 
+                })
+            })
+        });
+
 
     app.get("/dashboard/pages/toggle/:id"
         , lg.isLoggedIn
@@ -75,16 +69,27 @@ module.exports = function (app) {
             })
         })
 
+    app.get("/dashboard/pages/edit/:id"
+        , lg.isLoggedIn
+        , lg.haveRights
+        , function (req, res) {
+            let id = req.params.id;
+            pages.findById(id).then(function (page) {
+                res.render('dashboard/pages-edit', { user: req.user, messeges: "", page: page });
+            })
+        })
+
+
     app.get("/pages/:slug"
         , lg.isLoggedIn
         , lg.haveRights
         , function (req, res) {
             let slug = req.params.slug;
-            pages.findOne({where:{slug:slug}}).then(function (pg) {
-                res.render('page', { user: req.user, messeges: "" , page:pg });
+            pages.findOne({ where: { slug: slug } }).then(function (pg) {
+                res.render('page', { user: req.user, messeges: "", page: pg });
             })
         })
-    
+
     /*    
     app.get("/api/unredmessages"
         , lg.isLoggedIn

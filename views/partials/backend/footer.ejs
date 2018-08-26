@@ -10,3 +10,41 @@
   xhttp.send();
 </script>
 
+<script>
+$('#summernote').summernote({
+  placeholder: 'Page content',
+  height: 300,   
+  callbacks: {
+      onImageUpload: function(image) {
+          uploadImage(image[0]);
+      }
+  }
+});
+
+function uploadImage(image){
+  var data = new FormData();
+  data.append("image", image);
+  $.ajax({
+      url: '/api/files/upload',
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: data,
+      type: "post",
+      success: function(url) {
+          var image = $('<img>').attr('src', url.filename);
+          $('#summernote').summernote("insertNode", image[0]);
+      },
+      error: function(data) {
+          console.log(data);
+      }
+  });
+}
+
+$("#page-title").change(function(){
+  if($("#page-autegenerate").prop("checked")==true){
+        $("#page-slug").val($("#page-title").val().toLowerCase().trim().split(" ").join("_"));
+    }
+});
+
+</script>
