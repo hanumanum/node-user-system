@@ -6,6 +6,10 @@ const passport   = require('passport')
 const session    = require('express-session')
 const flash  = require('connect-flash');
 
+const path = require('path');
+global.nusRoot = path.resolve(__dirname);
+
+
 const user = require("./models/user");
 const app = express();
 
@@ -37,9 +41,12 @@ app.get('/', function(req, res) {
 
 require('./configs/passport.js')(passport, user);
 
-require('./routes/route.contact.js')(app);
-require('./routes/route.user.js')(app,passport);
-require('./routes/route.auth.js')(app,passport);
+require('./routes/route.contact')(app);
+require('./routes/route.files')(app);
+require('./routes/route.page')(app);
+require('./routes/route.user')(app,passport);
+require('./routes/route.auth')(app,passport);
+
 
 
 

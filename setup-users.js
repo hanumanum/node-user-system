@@ -1,6 +1,6 @@
 const readline = require("readline");
 const User = require("./models/user");
-const ContactMessage = require("./models/contactmessage");
+
 
 let superUserName, superUserPassword, superUserEmail;
 let promptsCount = 0;
@@ -46,11 +46,7 @@ rl.on('line', (line) => {
           .catch(function (err) {
             console.log(err)
           })
-
-          ContactMessage.sync({force: true}).then(function(){
-            console.log("-----push enter----");
-          })
-    
+  
         })
 });
 

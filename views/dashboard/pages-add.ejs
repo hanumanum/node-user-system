@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+    <%- include("../partials/resourses/styles-bootstrap") %>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
+    <title><%=identity.title %></title>
+</head>
+
+<body>
+    <div class="container-fluid">
+            <%- include("../partials/backend/header") %>    
+            <main class="row">
+                <div class="col-2">
+                    <%- include("../partials/backend/leftnav") %>
+                </div>
+                <div class="col-10">
+                   <h2>Add new page </h2>
+                  <hr>
+                  <form action="/dashboard/pages/create" method="post" class="han-usrforms">
+                        <div class="form-group">    
+                            <label>Title</label>
+                            <input class="form-control" type="text" name="title">
+                        </div>
+                        <div class="form-group">    
+                            <label>Slug</label>
+                            <input class="form-control" type="text" name="slug">
+                        </div>
+                        <div class="form-group">    
+                            <label>Text</label>
+                            <textarea id="summernote" class="form-control" name="text"></textarea>
+                        </div>
+                        <input type="hidden" name="authorId" value=1>
+                        <input type="submit" class="btn btn-primary">
+                    </form> 
+                </div>
+            </main>
+    </div>
+
+    <%- include("../partials/resourses/scripts-bootstrap") %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+    <script>
+      $('#summernote').summernote({
+        placeholder: 'Page content',
+        height: 300,   
+        callbacks: {
+            onImageUpload: function(image) {
+                uploadImage(image[0]);
+            }
+        }
+      });
+
+      function uploadImage(image){
+        var data = new FormData();
+        data.append("image", image);
+        $.ajax({
+            url: '/api/files/upload',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            type: "post",
+            success: function(url) {
+                var image = $('<img>').attr('src', url.filename);
+                $('#summernote').summernote("insertNode", image[0]);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+      }
+    </script>
+    <%- include("../partials/backend/footer") %>
+</body>
+
+</html>

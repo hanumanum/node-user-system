@@ -1,10 +1,8 @@
 const lg = require("../utils/authAndRoles");
 const contactmessage = require("../models/contactmessage")
-const User = require("../models/user");
-
 
 //TODO: validation and messaging
-module.exports = function (app, passport) {
+module.exports = function (app) {
     app.get('/contact', function (req, res) {
         res.render('contact', { formData: "", message: "", response: "" });
     });
