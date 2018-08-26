@@ -60,14 +60,22 @@ module.exports = function (app, passport) {
                     res.redirect("/dashboard/users");
                 })
             }
-            
-            //console.log(req.userinfo);
-            //User.findAll().then(function (users) {
-                //res.render('dashboard/users', { user: req.user, users: users });
-            //})
-
-
         });
+
+      app.get("/users/verification/:token"
+            ,lg.isLoggedIn
+            ,lg.haveRights
+            ,function(req,res){
+                let token = req.params.token;
+                User.findOne({where:{verify_token:token}}).then(function(user){
+                    user.verified = true;
+                    user.verify_token = "";
+                    user.save().then(function(){
+                        backURL=req.header('Referer') || '/';
+                        res.redirect(backURL);
+                    })
+                })
+            })
 
 }
 

@@ -31,6 +31,7 @@
                             <th>Registrated</th>
                             <th>Edit</th>
                             <th>Delete</th>
+                            <th>Verify</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,11 @@
                                 <td><%=user.createdAt.toLocaleDateString("en-US") %></td>
                                 <td><a href="/dashboard/users/<%=user.id %>"><i class="fas fa-edit"></i></a></td>
                                 <td><a href="/dashboard/users/delete/<%=user.id %>"><i class="fas fa-trash"></i></a></td>
+                                <td>
+                                <% if(!user.verified) { %>
+                                    <a href="/users/verification/<%=user.verify_token %>"><i class="fas fa-thumbs-up"></i></a>
+                                <% } %>
+                                </td>
                             </tr>
                         <% }); %>
                     </tbody>
