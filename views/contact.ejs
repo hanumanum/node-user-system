@@ -12,29 +12,36 @@
         <% include partials/frontend/header %>
         <% include partials/frontend/nav %>
         <main class="han-main">
-            <% if(response) { %>
-                <%=response %>
-            <%  } else { %>
-                <form class="han-usrforms" id="contact" name="contact" method="post" action="contact">
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <% if(formData && formData.email) { %>
-                        <input value="<%=formData.email%>" name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                        <% } else {%>
-                        <input  name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email or username">    
-                        <% } %>
-                    </div>
-                    <% if ( message && message.email ) { %>
-                        <div class="alert alert-danger" role="alert"><%-message.email.join('<br>') %></div>
+        <% if(valid && valid!==null) { %>
+            <%="Send sucsessfuly, we will contact you soon" %>
+        <%  } else {  %>
+            <form class="han-usrforms" id="contact" name="contact" method="post" action="contact">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <% if(formData && formData.email) { %>
+                    <input value="<%=formData.email%>" name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <% } else {%>
+                    <input  name="email" autofocus type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email or username">    
                     <% } %>
-                    <label for="topic">Topic</label>
-                    <input name="topic" type="text" class="form-control" id="topic" aria-describedby="topicHelp" placeholder="Enter topic">  
-                    <br>
-                    <label for="contactmessage">Text</label>
-                    <textarea class="form-control" name="contactmessage" id="contactmessage"></textarea>
-                    <br>
-                    <button type="submit" class="btn btn-primary" value="Sign In">Submit</button>
-                </form>
+                </div>
+                <% if ( validation && validation.email ) { %>
+                    <div class="alert alert-danger" role="alert"><%-validation.email.join('<br>') %></div>
+                <% } %>
+                <label for="topic">Topic</label>
+                <input value="<%=formData.topic%>" name="topic" type="text" class="form-control" id="topic" aria-describedby="topicHelp" placeholder="Enter topic">  
+                <br>
+                <% if ( validation && validation.topic ) { %>
+                    <div class="alert alert-danger" role="alert"><%-validation.topic.join('<br>') %></div>
+                <% } %>
+                <label for="contactmessage">Text</label>
+                <textarea class="form-control" name="contactmessage" id="contactmessage"><%=formData.contactmessage%></textarea>
+                <br>
+                <% if ( validation && validation.contactmessage ) { %>
+                    <div class="alert alert-danger" role="alert"><%-validation.contactmessage.join('<br>') %></div>
+                <% } %>
+
+                <button type="submit" class="btn btn-primary" value="Sign In">Submit</button>
+            </form>
             <% } %>
         </main>
         <% include partials/frontend/footer %>

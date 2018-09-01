@@ -1,9 +1,6 @@
-
-
 module.exports = {
     isLoggedIn:function(req, res, next) {
-        //TODO remove leter, just for development
-        return next();
+        //return next();
         
         if (req.isAuthenticated())
             return next();

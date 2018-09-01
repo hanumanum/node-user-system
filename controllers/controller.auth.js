@@ -3,7 +3,7 @@ var exports = module.exports = {}
 
 exports.signup = function(req,res){
     res.render('signup',{
-                        message: req.flash('signupMessageError')[0]
+                         message: req.flash('signupMessageError')[0]
                         ,formData: req.flash("formData")[0]
                     }); 
 }

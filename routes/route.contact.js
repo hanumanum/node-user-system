@@ -1,23 +1,21 @@
 const lg = require("../utils/authAndRoles");
 const contactmessage = require("../models/contactmessage")
+const validation = require("../middlewares/contactmessage/validate.contactmessage")
 
-//TODO: validation and messaging
 module.exports = function (app) {
     app.get('/contact', function (req, res) {
-        res.render('contact', { formData: "", message: "", response: "" });
+        res.render('contact', { valid: null, validation: "", formData: "" });
     });
 
-    app.post('/contact', function (req, res) {
-        if (req.body.email && req.body.contactmessage && req.body.email != "" && req.body.contactmessage != "") {
-            let data = {
-                email: req.body.email,
-                topic: req.body.topic,
-                text: req.body.contactmessage
-            }
-            contactmessage.create(data).then(function () {
-                res.render('contact', { response: "Sucsessfuly sent, we will reply you" });
-            })
+    app.post('/contact', validation.validateFileds, function (req, res) {
+        let data = {
+            email: req.body.email,
+            topic: req.body.topic,
+            text: req.body.contactmessage
         }
+        contactmessage.create(data).then(function () {
+            res.render('contact', { valid:true});
+        })
     });
 
     app.get('/dashboard/contactmessages'
